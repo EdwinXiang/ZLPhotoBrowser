@@ -63,29 +63,29 @@ class ZLThumbnailViewController: UIViewController {
     
     private var limitAuthTipsView: ZLLimitedAuthorityTipsView?
     
-    private lazy var previewBtn: UIButton = {
-        let btn = createBtn(localLanguageTextValue(.preview), #selector(previewBtnClick))
-        btn.titleLabel?.lineBreakMode = .byCharWrapping
-        btn.titleLabel?.numberOfLines = 2
-        btn.contentHorizontalAlignment = .left
-        btn.isHidden = !ZLPhotoConfiguration.default().showPreviewButtonInAlbum
-        return btn
-    }()
-    
-    private lazy var originalBtn: UIButton = {
-        let btn = createBtn(localLanguageTextValue(.originalPhoto), #selector(originalPhotoClick))
-        btn.titleLabel?.lineBreakMode = .byCharWrapping
-        btn.titleLabel?.numberOfLines = 2
-        btn.contentHorizontalAlignment = .left
-        btn.setImage(.zl.getImage("zl_btn_original_circle"), for: .normal)
-        btn.setImage(.zl.getImage("zl_btn_original_selected"), for: .selected)
-        btn.setImage(.zl.getImage("zl_btn_original_selected"), for: [.selected, .highlighted])
-        btn.adjustsImageWhenHighlighted = false
-        btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
-        btn.isHidden = !(ZLPhotoConfiguration.default().allowSelectOriginal && ZLPhotoConfiguration.default().allowSelectImage)
-        btn.isSelected = (navigationController as? ZLImageNavController)?.isSelectedOriginal ?? false
-        return btn
-    }()
+//    private lazy var previewBtn: UIButton = {
+//        let btn = createBtn(localLanguageTextValue(.preview), #selector(previewBtnClick))
+//        btn.titleLabel?.lineBreakMode = .byCharWrapping
+//        btn.titleLabel?.numberOfLines = 2
+//        btn.contentHorizontalAlignment = .left
+//        btn.isHidden = !ZLPhotoConfiguration.default().showPreviewButtonInAlbum
+//        return btn
+//    }()
+//
+//    private lazy var originalBtn: UIButton = {
+//        let btn = createBtn(localLanguageTextValue(.originalPhoto), #selector(originalPhotoClick))
+//        btn.titleLabel?.lineBreakMode = .byCharWrapping
+//        btn.titleLabel?.numberOfLines = 2
+//        btn.contentHorizontalAlignment = .left
+//        btn.setImage(.zl.getImage("zl_btn_original_circle"), for: .normal)
+//        btn.setImage(.zl.getImage("zl_btn_original_selected"), for: .selected)
+//        btn.setImage(.zl.getImage("zl_btn_original_selected"), for: [.selected, .highlighted])
+//        btn.adjustsImageWhenHighlighted = false
+//        btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+//        btn.isHidden = !(ZLPhotoConfiguration.default().allowSelectOriginal && ZLPhotoConfiguration.default().allowSelectImage)
+//        btn.isSelected = (navigationController as? ZLImageNavController)?.isSelectedOriginal ?? false
+//        return btn
+//    }()
     
     private lazy var doneBtn: UIButton = {
         let btn = createBtn(localLanguageTextValue(.done), #selector(doneBtnClick), true)
@@ -312,20 +312,20 @@ class ZLThumbnailViewController: UIViewController {
             let btnMaxWidth = (bottomView.bounds.width - 30) / 3
             
             let btnY = showLimitAuthTipsView ? ZLLimitedAuthorityTipsView.height + ZLLayout.bottomToolBtnY : ZLLayout.bottomToolBtnY
-            let previewTitle = localLanguageTextValue(.preview)
-            let previewBtnW = previewTitle.zl.boundingRect(font: ZLLayout.bottomToolTitleFont, limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 30)).width
-            previewBtn.frame = CGRect(x: 15, y: btnY, width: min(btnMaxWidth, previewBtnW), height: btnH)
+//            let previewTitle = localLanguageTextValue(.preview)
+//            let previewBtnW = previewTitle.zl.boundingRect(font: ZLLayout.bottomToolTitleFont, limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 30)).width
+//            previewBtn.frame = CGRect(x: 15, y: btnY, width: min(btnMaxWidth, previewBtnW), height: btnH)
             
-            let originalTitle = localLanguageTextValue(.originalPhoto)
-            let originBtnW = originalTitle.zl.boundingRect(
-                font: ZLLayout.bottomToolTitleFont,
-                limitSize: CGSize(
-                    width: CGFloat.greatestFiniteMagnitude,
-                    height: 30
-                )
-            ).width + (originalBtn.currentImage?.size.width ?? 19) + 12
-            let originBtnMaxW = min(btnMaxWidth, originBtnW)
-            originalBtn.frame = CGRect(x: (bottomView.bounds.width - originBtnMaxW) / 2 - 5, y: btnY, width: originBtnMaxW, height: btnH)
+//            let originalTitle = localLanguageTextValue(.originalPhoto)
+//            let originBtnW = originalTitle.zl.boundingRect(
+//                font: ZLLayout.bottomToolTitleFont,
+//                limitSize: CGSize(
+//                    width: CGFloat.greatestFiniteMagnitude,
+//                    height: 30
+//                )
+//            ).width + (originalBtn.currentImage?.size.width ?? 19) + 12
+//            let originBtnMaxW = min(btnMaxWidth, originBtnW)
+//            originalBtn.frame = CGRect(x: (bottomView.bounds.width - originBtnMaxW) / 2 - 5, y: btnY, width: originBtnMaxW, height: btnH)
             
             refreshDoneBtnFrame()
         }
@@ -354,8 +354,8 @@ class ZLThumbnailViewController: UIViewController {
             bottomView.addSubview(limitAuthTipsView!)
         }
         
-        bottomView.addSubview(previewBtn)
-        bottomView.addSubview(originalBtn)
+//        bottomView.addSubview(previewBtn)
+//        bottomView.addSubview(originalBtn)
         bottomView.addSubview(doneBtn)
         
         setupNavView()
@@ -477,29 +477,30 @@ class ZLThumbnailViewController: UIViewController {
     
     // MARK: btn actions
     
-    @objc private func previewBtnClick() {
-        guard let nav = navigationController as? ZLImageNavController else {
-            zlLoggerInDebug("Navigation controller is null")
-            return
-        }
-        let vc = ZLPhotoPreviewController(photos: nav.arrSelectedModels, index: 0)
-        show(vc, sender: nil)
-    }
-    
-    @objc private func originalPhotoClick() {
-        originalBtn.isSelected.toggle()
-        (navigationController as? ZLImageNavController)?.isSelectedOriginal = originalBtn.isSelected
-    }
+//    @objc private func previewBtnClick() {
+//        guard let nav = navigationController as? ZLImageNavController else {
+//            zlLoggerInDebug("Navigation controller is null")
+//            return
+//        }
+//        let vc = ZLPhotoPreviewController(photos: nav.arrSelectedModels, index: 0)
+//        show(vc, sender: nil)
+//    }
+//
+//    @objc private func originalPhotoClick() {
+//        originalBtn.isSelected.toggle()
+//        (navigationController as? ZLImageNavController)?.isSelectedOriginal = originalBtn.isSelected
+//    }
     
     @objc private func doneBtnClick() {
-        let nav = navigationController as? ZLImageNavController
-        if let block = ZLPhotoConfiguration.default().operateBeforeDoneAction {
-            block(self) { [weak nav] in
-                nav?.selectImageBlock?()
-            }
-        } else {
-            nav?.selectImageBlock?()
-        }
+//        let nav = navigationController as? ZLImageNavController
+//        if let block = ZLPhotoConfiguration.default().operateBeforeDoneAction {
+//            block(self) { [weak nav] in
+//                nav?.selectImageBlock?()
+//            }
+//        } else {
+//            nav?.selectImageBlock?()
+//        }
+        pushPreviewVC(index: 0)
     }
     
     @objc private func deviceOrientationChanged(_ notify: Notification) {
@@ -719,17 +720,17 @@ class ZLThumbnailViewController: UIViewController {
             doneTitle += "(" + String(nav.arrSelectedModels.count) + ")"
         }
         if nav.arrSelectedModels.count > 0 {
-            previewBtn.isEnabled = true
+//            previewBtn.isEnabled = true
             doneBtn.isEnabled = true
             doneBtn.setTitle(doneTitle, for: .normal)
             doneBtn.backgroundColor = .zl.bottomToolViewBtnNormalBgColor
         } else {
-            previewBtn.isEnabled = false
+//            previewBtn.isEnabled = false
             doneBtn.isEnabled = false
             doneBtn.setTitle(doneTitle, for: .normal)
             doneBtn.backgroundColor = .zl.bottomToolViewBtnDisableBgColor
         }
-        originalBtn.isSelected = nav.isSelectedOriginal
+//        originalBtn.isSelected = nav.isSelectedOriginal
         refreshDoneBtnFrame()
     }
     
@@ -1115,7 +1116,11 @@ extension ZLThumbnailViewController: UICollectionViewDataSource, UICollectionVie
         if shouldDirectEdit(m) {
             return
         }
+        pushPreviewVC(index: index)
         
+    }
+    
+    func pushPreviewVC(index: Int) {
         let vc = ZLPhotoPreviewController(photos: arrDataSources, index: index)
         show(vc, sender: nil)
     }

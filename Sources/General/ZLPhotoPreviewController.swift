@@ -107,29 +107,29 @@ class ZLPhotoPreviewController: UIViewController {
     
     private var bottomBlurView: UIVisualEffectView?
     
-    private lazy var editBtn: UIButton = {
-        let btn = createBtn(localLanguageTextValue(.edit), #selector(editBtnClick))
-        btn.titleLabel?.lineBreakMode = .byCharWrapping
-        btn.titleLabel?.numberOfLines = 0
-        btn.contentHorizontalAlignment = .left
-        return btn
-    }()
-    
-    private lazy var originalBtn: UIButton = {
-        let btn = createBtn(localLanguageTextValue(.originalPhoto), #selector(originalPhotoClick))
-        btn.titleLabel?.lineBreakMode = .byCharWrapping
-        btn.titleLabel?.numberOfLines = 2
-        btn.contentHorizontalAlignment = .left
-        btn.setImage(.zl.getImage("zl_btn_original_circle"), for: .normal)
-        btn.setImage(.zl.getImage("zl_btn_original_selected"), for: .selected)
-        btn.setImage(.zl.getImage("zl_btn_original_selected"), for: [.selected, .highlighted])
-        btn.adjustsImageWhenHighlighted = false
-        btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
-        return btn
-    }()
+//    private lazy var editBtn: UIButton = {
+//        let btn = createBtn(localLanguageTextValue(.edit), #selector(editBtnClick))
+//        btn.titleLabel?.lineBreakMode = .byCharWrapping
+//        btn.titleLabel?.numberOfLines = 0
+//        btn.contentHorizontalAlignment = .left
+//        return btn
+//    }()
+//
+//    private lazy var originalBtn: UIButton = {
+//        let btn = createBtn(localLanguageTextValue(.originalPhoto), #selector(originalPhotoClick))
+//        btn.titleLabel?.lineBreakMode = .byCharWrapping
+//        btn.titleLabel?.numberOfLines = 2
+//        btn.contentHorizontalAlignment = .left
+//        btn.setImage(.zl.getImage("zl_btn_original_circle"), for: .normal)
+//        btn.setImage(.zl.getImage("zl_btn_original_selected"), for: .selected)
+//        btn.setImage(.zl.getImage("zl_btn_original_selected"), for: [.selected, .highlighted])
+//        btn.adjustsImageWhenHighlighted = false
+//        btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+//        return btn
+//    }()
     
     private lazy var doneBtn: UIButton = {
-        let btn = createBtn(localLanguageTextValue(.done), #selector(doneBtnClick), true)
+        let btn = createBtn(localLanguageTextValue(.done), #selector(editBtnClick), true)
         btn.backgroundColor = .zl.bottomToolViewBtnNormalBgColorOfPreviewVC
         btn.layer.masksToBounds = true
         btn.layer.cornerRadius = ZLLayout.bottomToolBtnCornerRadius
@@ -274,20 +274,20 @@ class ZLPhotoPreviewController: UIViewController {
         
         let btnMaxWidth = (bottomView.bounds.width - 30) / 3
         
-        let editTitle = localLanguageTextValue(.edit)
-        let editBtnW = editTitle.zl.boundingRect(font: ZLLayout.bottomToolTitleFont, limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 30)).width
-        editBtn.frame = CGRect(x: 15, y: btnY, width: min(btnMaxWidth, editBtnW), height: btnH)
-        
-        let originalTitle = localLanguageTextValue(.originalPhoto)
-        let originBtnW = originalTitle.zl.boundingRect(
-            font: ZLLayout.bottomToolTitleFont,
-            limitSize: CGSize(
-                width: CGFloat.greatestFiniteMagnitude,
-                height: 30
-            )
-        ).width + (originalBtn.currentImage?.size.width ?? 19) + 12
-        let originBtnMaxW = min(btnMaxWidth, originBtnW)
-        originalBtn.frame = CGRect(x: (bottomView.bounds.width - originBtnMaxW) / 2 - 5, y: btnY, width: originBtnMaxW, height: btnH)
+//        let editTitle = localLanguageTextValue(.edit)
+//        let editBtnW = editTitle.zl.boundingRect(font: ZLLayout.bottomToolTitleFont, limitSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 30)).width
+//        editBtn.frame = CGRect(x: 15, y: btnY, width: min(btnMaxWidth, editBtnW), height: btnH)
+//
+//        let originalTitle = localLanguageTextValue(.originalPhoto)
+//        let originBtnW = originalTitle.zl.boundingRect(
+//            font: ZLLayout.bottomToolTitleFont,
+//            limitSize: CGSize(
+//                width: CGFloat.greatestFiniteMagnitude,
+//                height: 30
+//            )
+//        ).width + (originalBtn.currentImage?.size.width ?? 19) + 12
+//        let originBtnMaxW = min(btnMaxWidth, originBtnW)
+//        originalBtn.frame = CGRect(x: (bottomView.bounds.width - originBtnMaxW) / 2 - 5, y: btnY, width: originBtnMaxW, height: btnH)
         
         let selCount = (navigationController as? ZLImageNavController)?.arrSelectedModels.count ?? 0
         var doneTitle = localLanguageTextValue(.done)
@@ -334,12 +334,12 @@ class ZLPhotoPreviewController: UIViewController {
             bottomView.addSubview(selPhotoPreview!)
         }
         
-        editBtn.isHidden = (!config.allowEditImage && !config.allowEditVideo)
-        bottomView.addSubview(editBtn)
-        
-        originalBtn.isHidden = !(config.allowSelectOriginal && config.allowSelectImage)
-        originalBtn.isSelected = (navigationController as? ZLImageNavController)?.isSelectedOriginal ?? false
-        bottomView.addSubview(originalBtn)
+//        editBtn.isHidden = (!config.allowEditImage && !config.allowEditVideo)
+//        bottomView.addSubview(editBtn)
+//
+//        originalBtn.isHidden = !(config.allowSelectOriginal && config.allowSelectImage)
+//        originalBtn.isSelected = (navigationController as? ZLImageNavController)?.isSelectedOriginal ?? false
+//        bottomView.addSubview(originalBtn)
         
         bottomView.addSubview(doneBtn)
         
@@ -439,7 +439,7 @@ class ZLPhotoPreviewController: UIViewController {
             return
         }
         let selCount = nav.arrSelectedModels.count
-        var doneTitle = localLanguageTextValue(.done)
+        var doneTitle = localLanguageTextValue(.export)
         if ZLPhotoConfiguration.default().showSelectCountOnDoneBtn, selCount > 0 {
             doneTitle += "(" + String(selCount) + ")"
         }
@@ -448,24 +448,24 @@ class ZLPhotoPreviewController: UIViewController {
         selPhotoPreview?.isHidden = selCount == 0
         refreshBottomViewFrame()
         
-        var hideEditBtn = true
-        if selCount < config.maxSelectCount || nav.arrSelectedModels.contains(where: { $0 == currentModel }) {
-            if config.allowEditImage,
-               currentModel.type == .image || (currentModel.type == .gif && !config.allowSelectGif) || (currentModel.type == .livePhoto && !config.allowSelectLivePhoto) {
-                hideEditBtn = false
-            }
-            if config.allowEditVideo,
-               currentModel.type == .video,
-               selCount == 0 || (selCount == 1 && nav.arrSelectedModels.first == currentModel) {
-                hideEditBtn = false
-            }
-        }
-        editBtn.isHidden = hideEditBtn
-        
-        if ZLPhotoConfiguration.default().allowSelectOriginal,
-           ZLPhotoConfiguration.default().allowSelectImage {
-            originalBtn.isHidden = !((currentModel.type == .image) || (currentModel.type == .livePhoto && !config.allowSelectLivePhoto) || (currentModel.type == .gif && !config.allowSelectGif))
-        }
+//        var hideEditBtn = true
+//        if selCount < config.maxSelectCount || nav.arrSelectedModels.contains(where: { $0 == currentModel }) {
+//            if config.allowEditImage,
+//               currentModel.type == .image || (currentModel.type == .gif && !config.allowSelectGif) || (currentModel.type == .livePhoto && !config.allowSelectLivePhoto) {
+//                hideEditBtn = false
+//            }
+//            if config.allowEditVideo,
+//               currentModel.type == .video,
+//               selCount == 0 || (selCount == 1 && nav.arrSelectedModels.first == currentModel) {
+//                hideEditBtn = false
+//            }
+//        }
+//        editBtn.isHidden = hideEditBtn
+//
+//        if ZLPhotoConfiguration.default().allowSelectOriginal,
+//           ZLPhotoConfiguration.default().allowSelectImage {
+//            originalBtn.isHidden = !((currentModel.type == .image) || (currentModel.type == .livePhoto && !config.allowSelectLivePhoto) || (currentModel.type == .gif && !config.allowSelectGif))
+//        }
     }
     
     private func resetIndexLabelStatus() {
@@ -560,31 +560,31 @@ class ZLPhotoPreviewController: UIViewController {
     }
     
     @objc private func originalPhotoClick() {
-        originalBtn.isSelected.toggle()
-        
-        let config = ZLPhotoConfiguration.default()
-        
-        let nav = (navigationController as? ZLImageNavController)
-        nav?.isSelectedOriginal = originalBtn.isSelected
-        if nav?.arrSelectedModels.count == 0 {
-            selectBtnClick()
-        } else if config.maxSelectCount == 1,
-                  !config.showSelectBtnWhenSingleSelect,
-                  !originalBtn.isSelected,
-                  nav?.arrSelectedModels.count == 1,
-                  let currentModel = nav?.arrSelectedModels.first
-        {
-            currentModel.isSelected = false
-            currentModel.editImage = nil
-            currentModel.editImageModel = nil
-            nav?.arrSelectedModels.removeAll { $0 == currentModel }
-            selPhotoPreview?.removeSelModel(model: currentModel)
-            resetSubViewStatus()
-            let index = config.sortAscending ? arrDataSources.lastIndex { $0 == currentModel } : arrDataSources.firstIndex { $0 == currentModel }
-            if let index = index {
-                collectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
-            }
-        }
+//        originalBtn.isSelected.toggle()
+//
+//        let config = ZLPhotoConfiguration.default()
+//
+//        let nav = (navigationController as? ZLImageNavController)
+//        nav?.isSelectedOriginal = originalBtn.isSelected
+//        if nav?.arrSelectedModels.count == 0 {
+//            selectBtnClick()
+//        } else if config.maxSelectCount == 1,
+//                  !config.showSelectBtnWhenSingleSelect,
+//                  !originalBtn.isSelected,
+//                  nav?.arrSelectedModels.count == 1,
+//                  let currentModel = nav?.arrSelectedModels.first
+//        {
+//            currentModel.isSelected = false
+//            currentModel.editImage = nil
+//            currentModel.editImageModel = nil
+//            nav?.arrSelectedModels.removeAll { $0 == currentModel }
+//            selPhotoPreview?.removeSelModel(model: currentModel)
+//            resetSubViewStatus()
+//            let index = config.sortAscending ? arrDataSources.lastIndex { $0 == currentModel } : arrDataSources.firstIndex { $0 == currentModel }
+//            if let index = index {
+//                collectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
+//            }
+//        }
     }
     
     @objc private func doneBtnClick() {

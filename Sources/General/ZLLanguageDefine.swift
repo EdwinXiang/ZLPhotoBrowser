@@ -74,6 +74,8 @@ public struct ZLLocalLanguageKey: Hashable {
     /// Done (确定)
     public static let done = ZLLocalLanguageKey(rawValue: "done")
     
+    public static let export = ZLLocalLanguageKey(rawValue: "export")
+    
     /// OK (确定)
     public static let ok = ZLLocalLanguageKey(rawValue: "ok")
     

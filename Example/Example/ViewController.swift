@@ -156,10 +156,8 @@ class ViewController: UIViewController {
         
         // Custom UI
         ZLPhotoUIConfiguration.default()
-//            .navBarColor(.white)
-//            .navViewBlurEffectOfAlbumList(nil)
-//            .indexLabelBgColor(.black)
-//            .indexLabelTextColor(.white)
+            .navBarColor(.white)
+            .indexLabelTextColor(.white)
             .minimumInteritemSpacing(minItemSpacing)
             .minimumLineSpacing(minLineSpacing)
             .columnCountBlock { Int(ceil($0 / (428.0 / 4))) }
@@ -169,19 +167,11 @@ class ViewController: UIViewController {
             .editImageConfiguration
             .imageStickerContainerView(ImageStickerContainerView())
             .canRedo(true)
-//            .tools([.draw, .clip, .mosaic, .filter])
-//            .adjustTools([.brightness, .contrast, .saturation])
-//            .clipRatios([.custom, .circle, .wh1x1, .wh3x4, .wh16x9, ZLImageClipRatio(title: "2 : 1", whRatio: 2 / 1)])
-//            .imageStickerContainerView(ImageStickerContainerView())
-//            .filters([.normal, .process, ZLFilter(name: "custom", applier: ZLCustomFilter.hazeRemovalFilter)])
-        
-        /*
-        ZLPhotoConfiguration.default()
-            .cameraConfiguration
-            .allowRecordVideo(false)
-            .allowSwitchCamera(false)
-            .showFlashSwitch(true)
-         */
+            .tools([.draw, .clip, .mosaic, .filter])
+            .adjustTools([.brightness, .contrast, .saturation])
+            .clipRatios([.custom, .circle, .wh1x1, .wh3x4, .wh16x9, ZLImageClipRatio(title: "2 : 1", whRatio: 2 / 1)])
+            .imageStickerContainerView(ImageStickerContainerView())
+            .filters([.normal, .process, ZLFilter(name: "custom", applier: ZLCustomFilter.hazeRemovalFilter)])
         
         ZLPhotoConfiguration.default()
             // You can first determine whether the asset is allowed to be selected.
@@ -198,6 +188,12 @@ class ViewController: UIViewController {
                     debugPrint("No microphone authority")
                 }
             }
+            .operateBeforeDoneAction({ vc, block in
+                block()
+            })
+            .allowSelectGif(false)
+            .allowSelectVideo(false)
+            .allowTakePhotoInLibrary(false)
 //            .operateBeforeDoneAction { currVC, block in
 //                // Do something before select photo result callback, and then call block to continue done action.
 //                block()
