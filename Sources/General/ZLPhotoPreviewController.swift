@@ -129,7 +129,7 @@ class ZLPhotoPreviewController: UIViewController {
 //    }()
     
     private lazy var doneBtn: UIButton = {
-        let btn = createBtn(localLanguageTextValue(.done), #selector(editBtnClick), true)
+        let btn = createBtn(localLanguageTextValue(.done), #selector(doneBtnClick), true)
         btn.backgroundColor = .zl.bottomToolViewBtnNormalBgColorOfPreviewVC
         btn.layer.masksToBounds = true
         btn.layer.cornerRadius = ZLLayout.bottomToolBtnCornerRadius
